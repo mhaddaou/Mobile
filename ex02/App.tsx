@@ -45,6 +45,8 @@ export default function App() {
     //     </View>
     //     <View style={tw`flex-1 bg-red-500`}>
 
+    
+
     //     </View>
     //   </SafeAreaView>
     // </View>
