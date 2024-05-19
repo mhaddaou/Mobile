@@ -3,6 +3,7 @@ import tw from "twrnc";
 
 type PropType = {
   items: string[];
+  getInput : (input : string) => void,
 };
 
 export default function Buttons(props: PropType) {
@@ -13,11 +14,17 @@ export default function Buttons(props: PropType) {
     else if (WhiteColor.includes(item)) return "text-white";
     else return "text-black";
   };
+
+  const returnInputToParent = (input : string) => {
+    props.getInput(input)
+  }
+
   function Get({ item }: { item: string }) {
     return (
       <TouchableWithoutFeedback
         style={tw`flex-1 w-full h-full bg-green-500`}
         onPress={() => {
+          returnInputToParent(item);
           if (item !== "") console.log(`button pressed :${item}`);
         }}
       >
