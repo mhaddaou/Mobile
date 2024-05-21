@@ -25,7 +25,7 @@ export default function Buttons(props: PropType) {
         style={tw`flex-1 w-full h-full bg-green-500`}
         onPress={() => {
           returnInputToParent(item);
-          if (item !== "") console.log(`button pressed :${item}`);
+          // if (item !== "") console.log(`button pressed :${item}`);
         }}
       >
         <View>
