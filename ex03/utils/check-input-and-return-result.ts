@@ -1,10 +1,13 @@
+import { useState } from "react"
+let check : boolean = false;
+
 import { ClearInput, ReturnType, CheckInputType, RemoveLastCharType, CheckDoubleZeroType } from "./interfaces"
 
 
 
 const clearInput = ({result} : ClearInput) : ReturnType =>{
-    console.log('here')
-    return {input: '0', result}
+
+    return {input: '0', result : '0'}
 }
 
 const removeLastChar = ({oldInput, result} : RemoveLastCharType ) : ReturnType =>{
@@ -23,18 +26,46 @@ const checkDoubleZero = ({input ,oldInput, result} : CheckDoubleZeroType) : Retu
 
 
 
-const convert = (input : string) =>{
-
-    console.log('this is the input', input)
-} 
-
 
 const calculate = (input : string) : ReturnType =>{
-    console.log(input, ' the is the input for result');
-    convert(input)
-    return {input , result : input}
+    const cal = input.replace('x', '*').replace('+-','-').replace('-+', '+');
+    console.log(cal , 'this is the calc');
+    const check = cal.replace(/[^0-9]/g, '')
+    console.log('this is the check');
+    return {
+        input,
+        result : eval(cal)
+    }
+}
+
+const setVariables = (props: CheckInputType) : ReturnType =>{
+    console.log(
+        check , 'when '
+    )
+    const operators = ['+', '-', '/', 'x'];
+    
+    if(props.input === '.' && check){
+        console.log('11111')
+        return {input : props.oldInput, result : props.result}
+    }
+    console.log(check, 'this is the first one');
+    if (props.input === '.' && !check){
+        console.log('22222222')
+        check = true;
+        console.log(check , 'this is the check ')
+        return {input : props.oldInput.concat(props.input), result : props.result};
+    }
+    if()
+    
+
+    if(props.oldInput[props.oldInput.length - 1] === props.input)
+        return {input : props.oldInput, result: props.result}
+
+    return {input : props.oldInput == '0' ? props.input :  props.oldInput + props.input, result : props.result} ;
 
 }
+
+
 
 export const checkInputAndReturnResult = (props : CheckInputType): ReturnType =>  {
     let number : 0;
@@ -42,16 +73,14 @@ export const checkInputAndReturnResult = (props : CheckInputType): ReturnType =>
     switch(props.input){
         case '=':
             return calculate(props.oldInput);
-            break;
         case 'AC':
             return clearInput({input : props.input, result: props.result})
         case 'C':
             return removeLastChar({oldInput: props.oldInput, result: props.result});
-            break;
         case '00':
             return checkDoubleZero(props);
         default:
-            return {input : props.oldInput == '0' ? props.input :  props.oldInput + props.input, result : props.result} ;
+            return setVariables(props);
 
     }
 }
