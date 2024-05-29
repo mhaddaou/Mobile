@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Text, View, SafeAreaView, StatusBar, Platform, StyleSheet } from "react-native";
+import { Text, View, SafeAreaView, StatusBar, Platform, StyleSheet, FlatList, TouchableWithoutFeedback, useWindowDimensions } from "react-native";
 import tw from "twrnc";
 import Buttons from "./components/Buttons";
+import { getColor } from "./utils/utils";
+
 
 function CheckOs() {
   return (
@@ -18,10 +20,59 @@ function CheckOs() {
 }
 
 export default function App() {
-  const firstLine = ["7", "8", "9", "C", "AC"];
-  const secondLine = ["4", "5", "6", "+", "-"];
-  const thirdLine = ["1", "2", "3", "x", "/"];
-  const lastLine = ["0", ".", "00", "=", ""];
+  const { height, width } = useWindowDimensions();
+
+  const DATA = [
+    "7",
+    "8",
+    "9",
+    "C",
+    "AC",
+    "4",
+    "5",
+    "6",
+    "+",
+    "-",
+    "1",
+    "2",
+    "3",
+    "x",
+    "/",
+    "0",
+    ".",
+    "00",
+    "=",
+    "",
+  ];
+  const orientation = () => {
+    return width > height;
+  };
+
+  const printChar =  (item: string) => {
+    console.log(`button pressed :${item}` )
+    
+  };
+
+  const render = ({ item }: { item: string }) => {
+    return (
+      <View style={[tw` mx-auto w-[20%]   `]}>
+        <TouchableWithoutFeedback
+          style={tw`flex-1 bg-green-500 w-[80%]`}
+          onPress={() => printChar(item)}
+        >
+          <View>
+            <Text
+              style={tw`mx-auto text-lg ${
+                orientation() ? "p-4 -mt-5.5" : "p-6 -mt-2"
+              }  ${getColor(item)}`}
+            >
+              {item}
+            </Text>
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
+    );
+  };
 
   return (
     <View style={tw`flex-1 bg-[#607d8b]`}>
@@ -31,12 +82,14 @@ export default function App() {
           <Text style={styles.end}>0</Text>
           <Text style={styles.end}>0</Text>
         </View>
-        <View style={tw`h-1/2 w-full bg-[#607d8b] flex-1 py-5 flex-col px-3`}>
-          {[firstLine, secondLine, thirdLine, lastLine].map((line, index) => (
-            <View key={index} style={tw`h-[25%] w-full flex flex-row`}>
-              <Buttons items={line} />
-            </View>
-          ))}
+        <View style={tw` w-full bg-[#607d8b] flex-1 py-5 flex-row px-3 `}>
+          <FlatList
+            style={tw`flex-1`}
+            scrollEnabled={false}
+            data={DATA}
+            numColumns={5}
+            renderItem={render}
+          />
         </View>
       </View>
     </View>

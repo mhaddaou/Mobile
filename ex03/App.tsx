@@ -1,4 +1,4 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -34,12 +34,31 @@ function CheckOs() {
 }
 
 export default function App() {
-  const DATA = ["7","8","9","C","AC","4","5","6","+","-","1","2","3","x","/","0",".","00","=",""];
+  const DATA = [
+    "7",
+    "8",
+    "9",
+    "C",
+    "AC",
+    "4",
+    "5",
+    "6",
+    "+",
+    "-",
+    "1",
+    "2",
+    "3",
+    "x",
+    "/",
+    "0",
+    ".",
+    "00",
+    "=",
+    "",
+  ];
   const [oldInput, setInput] = useState<string>("0");
   const [oldresult, setResult] = useState<string>("0");
   const { height, width } = useWindowDimensions();
-
-
 
   const orientation = () => {
     return width > height;
@@ -47,76 +66,13 @@ export default function App() {
 
   const getInputFromChild = async (_input: string) => {
     try {
-      const {input, result} = checkInputAndReturnResult({
-          oldInput,
-          input: _input,
-          result: oldresult,
-      })
-
-      // if(_input === '=')
-      //   setClickEquation(true);
-      // if (_input == "AC" || _input == "C") setClickEquation(false);
-
-      // if(clickEquation && operators.includes(_input)){
-      //   console.log('ah true');
-      //   console.log(oldresult);
-      //   // ({ input, result } = checkInputAndReturnResult({
-      //   //   oldInput: oldresult  ,
-      //   //   input: _input,
-      //   //   result: oldresult,
-      //   // }));
-      //   setInput(oldresult.concat(_input));
-      //   setResult(result);
-      //   setClickEquation(false);
-      //   return;
-
-      // }
-      // ({ input, result } = checkInputAndReturnResult({
-      //   oldInput: oldInput  ,
-      //   input: _input,
-      //   result: oldresult,
-      // }));
-      // if (oldInput.length >= 62) return;
-
-      
-      // if (_input == "=") {
-      //   console.log("11111", clickEquation);
-      //   setClickEquation(true);
-      //   console.log("22222", clickEquation);
-      // }
-
-      // if (
-      //   _input == "=" &&
-      //   (operators.includes(oldInput[oldInput.length - 1]) || clickEquation)
-      // )
-      //   return;
-
-      // const isOperatorInput = clickEquation && operators.includes(_input);
-
-      // const replace = clickEquation && !operators.includes(_input);
-
-
-      // if (_input == "AC" || "C") setClickEquation(false);
-
-      // if (replace) {
-      //   ({ input, result } = checkInputAndReturnResult({
-      //     oldInput: _input,
-      //     input: "",
-      //     result: oldresult,
-      //   }));
-      // } else {
-        // ({ input, result } = checkInputAndReturnResult({
-        //   oldInput: check ? oldresult.concat(_input) : oldInput ,
-        //   input: _input,
-        //   result: oldresult,
-        // }));
-      //   // console.log(isOperatorInput, "11111");
-      // }
-      // if(isOperatorInput)
-      //   setClickEquation(false);
+      const { input, result } = checkInputAndReturnResult({
+        oldInput,
+        input: _input,
+        result: oldresult,
+      });
       setInput(input);
       setResult(result);
-
     } catch (e: any) {}
   };
 
