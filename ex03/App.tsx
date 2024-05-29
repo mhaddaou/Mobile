@@ -1,8 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { Text, View, SafeAreaView, StatusBar, Platform, StyleSheet } from "react-native";
+import  { useState, useEffect } from "react";
+import {
+  Text,
+  View,
+  SafeAreaView,
+  StatusBar,
+  Platform,
+  StyleSheet,
+  FlatList,
+  TouchableWithoutFeedback,
+  useWindowDimensions,
+} from "react-native";
 import tw from "twrnc";
-import Buttons from "./components/Buttons";
 import { checkInputAndReturnResult } from "./utils/check-input-and-return-result";
+import { getColor } from "./utils/utils";
+const operators = ["+", "-", "/", "x"];
 
 function CheckOs() {
   return (
@@ -11,7 +22,11 @@ function CheckOs() {
         backgroundColor={Platform.OS === "ios" ? "transparent" : "#485e68"}
         barStyle="light-content"
       />
-      <Text style={tw`text-white text-center font-semibold pb-2 pt-${Platform.OS === "ios" ? "0" : "3"}`}>
+      <Text
+        style={tw`text-white text-center font-semibold pb-2 pt-${
+          Platform.OS === "ios" ? "0" : "3"
+        }`}
+      >
         Calculator
       </Text>
     </SafeAreaView>
@@ -19,108 +34,133 @@ function CheckOs() {
 }
 
 export default function App() {
-  const firstLine = ["7", "8", "9", "C", "AC"];
-  const secondLine = ["4", "5", "6", "+", "-"];
-  const thirdLine = ["1", "2", "3", "x", "/"];
-  const lastLine = ["0", ".", "00", "=", ""];
-  const [oldinput , setInput] = useState<string>('0');
-  const [oldresult , setResult] = useState<string>('0');
-  const [val , setVal] = useState<boolean>(false);
+  const DATA = ["7","8","9","C","AC","4","5","6","+","-","1","2","3","x","/","0",".","00","=",""];
+  const [oldInput, setInput] = useState<string>("0");
+  const [oldresult, setResult] = useState<string>("0");
+  const { height, width } = useWindowDimensions();
 
 
-  // function handleInput(val, _input, oldresult, oldinput) {
-  //   // Define the set of operators
-  //   const operators = ['+', '-', '/', 'x'];
-  
-  //   // Determine which input to use based on the condition
-  //   const isOperatorInput = val && operators.includes(_input);
-  //   const currentInput = isOperatorInput ? oldresult : oldinput;
-  
-  //   // Get the new input and result
-  //   const { input, result } = checkInputAndReturnResult({
-  //     oldInput: currentInput,
-  //     input: _input,
-  //     result: oldresult
-  //   });
-  
-  //   // Update the input and result states
-  //   setInput(input);
-  //   setResult(result);
-  // }
-  
-  // const getInputFromChild = async (_input: string) => {
-  //   // Handle the 'AC' input to reset the value
-  //   if (_input === 'AC') {
-  //     setVal(false);
-  //     // return;
-  //   }
-  
-  //   // Handle the '=' input to set the value and log a message
-  //   if (_input === '=') {
-  //     setVal(true);
-  //     console.log('equal');
-  //     return;
-  //   }
-  
-  //   // Define the set of operators
-  //   const operators = ['+', '-', '/', 'x'];
-  
-  //   // Determine which input to use based on the condition
-  //   const isOperatorInput = val && operators.includes(_input);
-  //   const currentInput = isOperatorInput ? oldresult : oldinput;
-  
-  //   // Get the new input and result
-  //   const { input, result } = checkInputAndReturnResult({
-  //     oldInput: currentInput,
-  //     input: _input,
-  //     result: oldresult
-  //   });
-  
-  //   // Update the input and result states
-  //   setInput(input);
-  //   setResult(result);
-  // };
+
+  const orientation = () => {
+    return width > height;
+  };
+
+  const getInputFromChild = async (_input: string) => {
+    try {
+      const {input, result} = checkInputAndReturnResult({
+          oldInput,
+          input: _input,
+          result: oldresult,
+      })
+
+      // if(_input === '=')
+      //   setClickEquation(true);
+      // if (_input == "AC" || _input == "C") setClickEquation(false);
+
+      // if(clickEquation && operators.includes(_input)){
+      //   console.log('ah true');
+      //   console.log(oldresult);
+      //   // ({ input, result } = checkInputAndReturnResult({
+      //   //   oldInput: oldresult  ,
+      //   //   input: _input,
+      //   //   result: oldresult,
+      //   // }));
+      //   setInput(oldresult.concat(_input));
+      //   setResult(result);
+      //   setClickEquation(false);
+      //   return;
+
+      // }
+      // ({ input, result } = checkInputAndReturnResult({
+      //   oldInput: oldInput  ,
+      //   input: _input,
+      //   result: oldresult,
+      // }));
+      // if (oldInput.length >= 62) return;
+
+      
+      // if (_input == "=") {
+      //   console.log("11111", clickEquation);
+      //   setClickEquation(true);
+      //   console.log("22222", clickEquation);
+      // }
+
+      // if (
+      //   _input == "=" &&
+      //   (operators.includes(oldInput[oldInput.length - 1]) || clickEquation)
+      // )
+      //   return;
+
+      // const isOperatorInput = clickEquation && operators.includes(_input);
+
+      // const replace = clickEquation && !operators.includes(_input);
 
 
-  const getInputFromChild =  async (_input : string) =>{
-    try{
-      const operators = ['+', '-', '/', 'x'];
-      const isOperatorInput = val && operators.includes(_input);
-  
-      if(_input == 'AC' || 'C')
-          setVal(false);
-      if (_input === '='){
-        setVal(true);
-        console.log('equal')
-      }
-        const {input, result } = checkInputAndReturnResult({oldInput : isOperatorInput ? oldresult : oldinput, input : _input, result : oldresult})
-        if(isOperatorInput)
-            setVal(false)
-  
+      // if (_input == "AC" || "C") setClickEquation(false);
+
+      // if (replace) {
+      //   ({ input, result } = checkInputAndReturnResult({
+      //     oldInput: _input,
+      //     input: "",
+      //     result: oldresult,
+      //   }));
+      // } else {
+        // ({ input, result } = checkInputAndReturnResult({
+        //   oldInput: check ? oldresult.concat(_input) : oldInput ,
+        //   input: _input,
+        //   result: oldresult,
+        // }));
+      //   // console.log(isOperatorInput, "11111");
+      // }
+      // if(isOperatorInput)
+      //   setClickEquation(false);
       setInput(input);
-        setResult(result);
-    }
-    catch(e : any){
-      console.log(e.message)
-    }
-  }
+      setResult(result);
 
-  
+    } catch (e: any) {}
+  };
+
+  const render = ({ item }: { item: string }) => {
+    return (
+      <View style={[tw` mx-auto w-[20%]   `]}>
+        <TouchableWithoutFeedback
+          style={tw`flex-1 bg-green-500 w-[80%]`}
+          onPress={() => getInputFromChild(item)}
+        >
+          <View>
+            <Text
+              style={tw`mx-auto text-lg ${
+                orientation() ? "p-4 -mt-5.5" : "p-6 -mt-2"
+              }  ${getColor(item)}`}
+            >
+              {item}
+            </Text>
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
+    );
+  };
 
   return (
     <View style={tw`flex-1 bg-[#607d8b]`}>
       <CheckOs />
-      <View style={tw`flex-1 bg-white`}>
-        <View style={tw`h-1/2 w-full bg-[#37474f] p-2`}>
-          <Text style={styles.end}>{oldinput}</Text>
+      <View style={tw`flex-1 `}>
+        <View
+          style={tw`  ${
+            orientation() ? "h-[50%]" : "h-[60%]"
+          } w-full bg-[#37474f] p-2`}
+        >
+          <Text style={styles.end}>{oldInput}</Text>
           <Text style={styles.end}>{oldresult}</Text>
         </View>
-        <View style={tw`h-1/2 w-full bg-[#607d8b] flex-1 py-5 flex-col px-3`}>
-          {[firstLine, secondLine, thirdLine, lastLine].map((line, index) => (
-            <View key={index} style={tw`h-[25%] w-full flex flex-row`}>
-              <Buttons getInput={(input : string) =>{getInputFromChild(input)}} items={line} />
-            </View>
-          ))}
+        <View style={tw` w-full bg-[#607d8b] flex-1 py-5 flex-row px-3 `}>
+          <FlatList
+            style={tw`flex-1`}
+            scrollEnabled={false}
+            data={DATA}
+            numColumns={5}
+            renderItem={render}
+          />
         </View>
       </View>
     </View>
@@ -130,9 +170,10 @@ export default function App() {
 const styles = StyleSheet.create({
   end: {
     textAlign: "right",
-    color: "white",
-    paddingTop:  4,
+    color: "#5d7987",
+    paddingTop: 4,
     fontSize: 22,
   },
 });
-// exp://21drf98-anonymous-8081.exp.direct
+
+// exp://pqkagfa-anonymous-8081.exp.direct
