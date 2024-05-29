@@ -1,5 +1,9 @@
 import { useState } from "react"
 let check : boolean = false;
+// let regix : RegExp = \b\d+(\.\d+)?\b
+let reg = new  RegExp('\b\d+(\.\d+)?\b')
+let sampleRegEx: RegExp = /(?:^|[+\-*/])\d*\.\d*$/;
+
 
 import { ClearInput, ReturnType, CheckInputType, RemoveLastCharType, CheckDoubleZeroType } from "./interfaces"
 
@@ -39,27 +43,28 @@ const calculate = (input : string) : ReturnType =>{
 }
 
 const setVariables = (props: CheckInputType) : ReturnType =>{
-    console.log(
-        check , 'when '
-    )
-    const operators = ['+', '-', '/', 'x'];
+
+    console.log(sampleRegEx.test(props.oldInput))
+    // console.log(
+    //     check , 'when '
+    // )
+    // const operators = ['+', '-', '/', 'x'];
     
-    if(props.input === '.' && check){
-        console.log('11111')
-        return {input : props.oldInput, result : props.result}
-    }
-    console.log(check, 'this is the first one');
-    if (props.input === '.' && !check){
-        console.log('22222222')
-        check = true;
-        console.log(check , 'this is the check ')
-        return {input : props.oldInput.concat(props.input), result : props.result};
-    }
-    if()
+    // if(props.input === '.' && check){
+    //     console.log('11111')
+    //     return {input : props.oldInput, result : props.result}
+    // }
+    // console.log(check, 'this is the first one');
+    // if (props.input === '.' && !check){
+    //     console.log('22222222')
+    //     check = true;
+    //     console.log(check , 'this is the check ')
+    //     return {input : props.oldInput.concat(props.input), result : props.result};
+    // }
     
 
-    if(props.oldInput[props.oldInput.length - 1] === props.input)
-        return {input : props.oldInput, result: props.result}
+    // if(props.oldInput[props.oldInput.length - 1] === props.input)
+    //     return {input : props.oldInput, result: props.result}
 
     return {input : props.oldInput == '0' ? props.input :  props.oldInput + props.input, result : props.result} ;
 
