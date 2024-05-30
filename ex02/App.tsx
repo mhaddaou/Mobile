@@ -63,8 +63,8 @@ export default function App() {
         >
           <View>
             <Text
-              style={tw`mx-auto text-lg ${
-                orientation() ? "p-4 -mt-5.5" : `${Platform.OS == 'ios' ? 'p-6' : 'p-6.5'} -mt-2`
+              style={tw`mx-auto font-semibold ${
+                orientation() ? "p-4 -mt-5" : "p-6 -mt-2"
               }  ${getColor(item)}`}
             >
               {item}

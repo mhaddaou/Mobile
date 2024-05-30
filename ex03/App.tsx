@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import {
   Text,
   View,
@@ -134,4 +134,3 @@ const styles = StyleSheet.create({
   },
 });
 
-// exp://pqkagfa-anonymous-8081.exp.direct

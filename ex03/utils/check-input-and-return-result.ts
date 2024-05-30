@@ -1,5 +1,6 @@
 let check: boolean = false;
 let sampleRegEx: RegExp = /(?:^|[+\-*/])\d*\.\d*$/;
+const regex = /[+\-*/]/;
 const operators = ["+", "-", "/", "x"];
 let clickEquation: boolean = false;
 
@@ -49,31 +50,54 @@ const checkDoubleZero = ({
   };
 };
 
-const calculate = (input: string): ReturnType => {
-  clickEquation = true;
-  const cal = input.replace("x", "*");
-  let result = eval(cal);
+const calculate = (input: string, oldResult: string): ReturnType => {
+  try {
+    clickEquation = true;
+    const cal = input.replace("x", "*");
+    let result = eval(cal);
 
-  if(result == 'Infinity' || result == '-Infinity')
-    result = 'Error'
-  return {
-    input,
-    result
-  };
+    if (result == "Infinity" || result == "-Infinity") result = "Error";
+    return {
+      input,
+      result,
+    };
+  } catch (e: any) {
+    return { input, result: oldResult };
+  }
 };
 
 const setVariables = (props: CheckInputType): ReturnType => {
+  // if click above equal and the last char is operator
+  if (
+    clickEquation &&
+    operators.includes(props.oldInput[props.oldInput.length - 1])
+  ) {
+    clickEquation = false;
+  }
+
+  // if touch operator instead of - the input will begine with 0
   if (
     operators.includes(props.input) &&
-    props.oldInput.length == 1 && props.input !== '-' &&
+    props.oldInput.length == 1 &&
+    props.input !== "-" &&
     props.oldInput == "0"
   ) {
     return { input: "0" + props.input, result: props.result };
   }
+
+  // if the last input is = and then you touch an operator there is tow statement if the old result is error it remplace with 0 and if there is any number it will replace the old result first
   if (clickEquation && operators.includes(props.input)) {
     clickEquation = false;
-    return { input: props.result == 'Error' ? '0' + props.input : props.result + props.input, result: props.result };
+    return {
+      input:
+        props.result == "Error"
+          ? "0" + props.input
+          : props.result + props.input,
+      result: props.result,
+    };
   }
+
+  // if the last input is = and then you touch a number instead of an operatro the new input it will be just your input
   if (clickEquation && !operators.includes(props.input)) {
     clickEquation = false;
     return { input: props.input, result: props.result };
@@ -81,13 +105,16 @@ const setVariables = (props: CheckInputType): ReturnType => {
 
   const lstChar = props.oldInput[props.oldInput.length - 1];
 
-  if (props.input == ".")
+  if (props.input == ".") {
     return {
-      input: sampleRegEx.test(props.oldInput)
+      input: props.oldInput
+        .split(regex)
+        [props.oldInput.split(regex).length - 1].includes(".")
         ? props.oldInput
         : props.oldInput.concat(props.input),
       result: props.result,
     };
+  }
 
   if (operators.includes(props.input) && operators.includes(lstChar)) {
     let input: string = "";
@@ -117,13 +144,12 @@ const setVariables = (props: CheckInputType): ReturnType => {
 export const checkInputAndReturnResult = (
   props: CheckInputType
 ): ReturnType => {
-
   if (operators.includes(props.input) && !props.oldInput.length)
     props.oldInput.concat("0");
 
   switch (props.input) {
     case "=":
-      return calculate(props.oldInput);
+      return calculate(props.oldInput, props.result);
     case "AC":
       return clearInput({ input: props.input, result: props.result });
     case "C":
