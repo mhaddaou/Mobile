@@ -65,6 +65,8 @@ export default function App() {
   };
 
   const getInputFromChild = async (_input: string) => {
+    if(_input === '')
+      return;
     try {
       const { input, result } = checkInputAndReturnResult({
         oldInput,
@@ -85,8 +87,8 @@ export default function App() {
         >
           <View>
             <Text
-              style={tw`mx-auto text-lg ${
-                orientation() ? "p-4 -mt-5.5" : "p-6 -mt-2"
+              style={tw`mx-auto font-semibold  ${
+                orientation() ? "p-4 -mt-5" : "p-6 -mt-2"
               }  ${getColor(item)}`}
             >
               {item}

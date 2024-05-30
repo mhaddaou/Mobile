@@ -12,6 +12,7 @@ import {
 } from "./interfaces";
 
 const clearInput = ({ result }: ClearInput): ReturnType => {
+  clickEquation = false;
   return { input: "0", result: "0" };
 };
 
@@ -39,6 +40,7 @@ const checkDoubleZero = ({
       result,
     };
   }
+
   if (oldInput.length === 1 && oldInput === "0")
     return { input: oldInput, result };
   return {
@@ -50,23 +52,27 @@ const checkDoubleZero = ({
 const calculate = (input: string): ReturnType => {
   clickEquation = true;
   const cal = input.replace("x", "*");
+  let result = eval(cal);
+
+  if(result == 'Infinity' || result == '-Infinity')
+    result = 'Error'
   return {
     input,
-    result: eval(cal),
+    result
   };
 };
 
 const setVariables = (props: CheckInputType): ReturnType => {
   if (
     operators.includes(props.input) &&
-    props.oldInput.length == 1 &&
+    props.oldInput.length == 1 && props.input !== '-' &&
     props.oldInput == "0"
   ) {
     return { input: "0" + props.input, result: props.result };
   }
   if (clickEquation && operators.includes(props.input)) {
     clickEquation = false;
-    return { input: props.result + props.input, result: props.result };
+    return { input: props.result == 'Error' ? '0' + props.input : props.result + props.input, result: props.result };
   }
   if (clickEquation && !operators.includes(props.input)) {
     clickEquation = false;
@@ -111,7 +117,7 @@ const setVariables = (props: CheckInputType): ReturnType => {
 export const checkInputAndReturnResult = (
   props: CheckInputType
 ): ReturnType => {
-  // props = checkAfterEquation(props);
+
   if (operators.includes(props.input) && !props.oldInput.length)
     props.oldInput.concat("0");
 

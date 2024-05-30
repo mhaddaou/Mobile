@@ -1,23 +1,10 @@
 import React, { useState } from "react";
 import { Text, View, SafeAreaView, StatusBar, Platform, StyleSheet, FlatList, TouchableWithoutFeedback, useWindowDimensions } from "react-native";
 import tw from "twrnc";
-import Buttons from "./components/Buttons";
 import { getColor } from "./utils/utils";
 
 
-function CheckOs() {
-  return (
-    <SafeAreaView>
-      <StatusBar
-        backgroundColor={Platform.OS === "ios" ? "transparent" : "#485e68"}
-        barStyle="light-content"
-      />
-      <Text style={tw`text-white text-center font-semibold pb-2 pt-${Platform.OS === "ios" ? "0" : "3"}`}>
-        Calculator
-      </Text>
-    </SafeAreaView>
-  );
-}
+
 
 export default function App() {
   const { height, width } = useWindowDimensions();
@@ -49,9 +36,23 @@ export default function App() {
   };
 
   const printChar =  (item: string) => {
-    console.log(`button pressed :${item}` )
-    
+    if(item!= '')
+      console.log(`button pressed :${item}` )
   };
+
+  function CheckOs() {
+    return (
+      <SafeAreaView>
+        <StatusBar
+          backgroundColor={Platform.OS === "ios" ? "transparent" : "#485e68"}
+          barStyle="light-content"
+        />
+        <Text style={tw`text-white text-center font-semibold pb-2 pt-${Platform.OS === "ios" ? `${orientation() ? '3' : '0'}` : "3"} `} >
+          Calculator
+        </Text>
+      </SafeAreaView>
+    );
+  }
 
   const render = ({ item }: { item: string }) => {
     return (
@@ -63,7 +64,7 @@ export default function App() {
           <View>
             <Text
               style={tw`mx-auto text-lg ${
-                orientation() ? "p-4 -mt-5.5" : "p-6 -mt-2"
+                orientation() ? "p-4 -mt-5.5" : `${Platform.OS == 'ios' ? 'p-6' : 'p-6.5'} -mt-2`
               }  ${getColor(item)}`}
             >
               {item}
@@ -77,8 +78,8 @@ export default function App() {
   return (
     <View style={tw`flex-1 bg-[#607d8b]`}>
       <CheckOs />
-      <View style={tw`flex-1 bg-white`}>
-        <View style={tw`h-1/2 w-full bg-[#37474f] p-2`}>
+      <View style={tw`flex-1 `}>
+        <View style={tw` ${orientation() ? "h-[50%]" : "h-[60%]"} w-full bg-[#37474f] p-2`}>
           <Text style={styles.end}>0</Text>
           <Text style={styles.end}>0</Text>
         </View>

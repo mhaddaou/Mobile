@@ -1,16 +1,7 @@
-import {
-  Text,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import tw from "twrnc";
 
-
-
-
-
 export default function App() {
-
   return (
     <View style={tw`flex-1 justify-center items-center`}>
       <View>
@@ -33,4 +24,3 @@ export default function App() {
     </View>
   );
 }
-
