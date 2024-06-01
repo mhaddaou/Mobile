@@ -8,12 +8,9 @@ import { View , Text} from 'react-native';
 
 export default function App() {
   return (
-    <View className='flex-1 bg-red-400 text-white'>
+    <View className='flex-1  '>
     <SafeAreaProvider>
       <HomeScreen />
-      {/* <View>
-        <Text className='text-white'>ncie</Text>
-      </View> */}
     </SafeAreaProvider>
     </View>
   );
