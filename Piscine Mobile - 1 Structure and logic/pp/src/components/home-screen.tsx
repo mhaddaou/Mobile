@@ -1,4 +1,4 @@
-import { Text, View , StatusBar, Dimensions, TextInput} from 'react-native';
+import { Text, View , StatusBar, Dimensions, TextInput, ImageBackground, Platform} from 'react-native';
 //@ts-ignore
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AppBar from './app-bar';
@@ -12,24 +12,18 @@ export default function HomeScreen() {
     const m = height / 2;
     console.log(m)
     return (
-      <View style={{ flex: 1, paddingTop: insets.top , backgroundColor: '#636579' }}>
-        <StatusBar barStyle="light-content"  backgroundColor='#636579' />
-        <View className='w-full h-full'>
-          <View  className=' h-[6%] bg-[#636579]' >
-            <AppBar/>
-          </View>
-          <View className='flex-1 bg-white p-1'>
-            <Body/>
-          </View>
-          <View className='h-[10%] bg-green-500 flex flex-row'>
-            <BottomBar/>
-            <Khoubza/>
-            <KhoubzaOne/>
-            
-          </View>
-
+      <ImageBackground source={require('../../assets/background.jpeg')} className='w-screen h-screen' resizeMode='cover'>
+      <View style={{ paddingTop: insets.top, paddingLeft : insets.left, paddingRight: insets.right}} className={`w-full h-full mt-${Platform.OS === 'android' ? '2' : '0'} `}>
+        <StatusBar barStyle='light-content' backgroundColor='#1e293b' />
+        <View className='w-full h-[6%] '>
+        <AppBar/>
         </View>
+        <View className='w-full h-[85%] '><Text>2</Text></View>
+        <View className='h-[9%] w-full bg-red-600'><Text>3</Text></View>
+        
+        
       </View>
+      </ImageBackground>
     );
   }
 

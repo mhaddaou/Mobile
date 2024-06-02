@@ -8,8 +8,8 @@ import { View , Text} from 'react-native';
 
 export default function App() {
   return (
-    <View className='flex-1  '>
-    <SafeAreaProvider>
+    <View className='flex-1  w-screen h-screen'>
+    <SafeAreaProvider className='h-screen w-screen'>
       <HomeScreen />
     </SafeAreaProvider>
     </View>
