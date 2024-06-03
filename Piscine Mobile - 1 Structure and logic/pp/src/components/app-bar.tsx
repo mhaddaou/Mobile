@@ -23,7 +23,7 @@ export default function AppBar() {
           placeholderTextColor="#d4d4d4"
           placeholder="Search location...."
           value={text}
-          className="font-semibold "
+          className="font-semibold w-full "
           onChangeText={setText}
         />
       </View>
