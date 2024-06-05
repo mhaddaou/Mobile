@@ -10,7 +10,7 @@ import { StatusBar } from "expo-status-bar";
 export default function App() {
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-      <StatusBar translucent backgroundColor="transparent" style="light" />
+      <StatusBar translucent backgroundColor="transparent" style="dark" />
       <ImageBackground
         source={require("./assets/background.jpeg")}
         resizeMode="cover"
