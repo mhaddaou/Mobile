@@ -1,15 +1,14 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Med from "./med";
-import Had from "./hadd";
-import Nice from "./nice";
-import { Text, TouchableOpacity, View, StyleSheet, Image } from "react-native";
-import Last from "./last";
+import { Text, TouchableOpacity, View} from "react-native";
 import { useEffect, useRef, useState } from "react";
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
+import Animated, { useAnimatedStyle, withSpring } from "react-native-reanimated";
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 
 import {faCalendarWeek, faCalendarDay, faGear} from '@fortawesome/free-solid-svg-icons'
+import Currently from "./Currently";
+import Today from "./Today";
+import Weekly from "./Weekly";
 interface ArrayInter {
     route : string;
     label : string;
@@ -18,9 +17,9 @@ interface ArrayInter {
 }
 
 const TabArr: ArrayInter[] = [
-    {route: 'Med', label: 'Currently', icon : faGear , component: Med},
-    {route: 'Had', label: 'Today', icon : faCalendarDay, component: Had},
-    {route: 'Last', label: 'Weekly', icon : faCalendarWeek , component: Last}
+    {route: 'Med', label: 'Currently', icon : faGear , component: Currently},
+    {route: 'Had', label: 'Today', icon : faCalendarDay, component: Today},
+    {route: 'Last', label: 'Weekly', icon : faCalendarWeek , component: Weekly}
 ]
 
 
@@ -66,7 +65,7 @@ const TabBotton = (props : any) =>{
                     activeOpacity={1}
                 >
                     <View className="flex gap-3">
-                        <View className={`${border ? 'bg-[#90302a] w-16 h-16 rounded-full border-[5px] ' : ''} flex justify-center items-center  border-white`}>
+                        <View className={`${border ? 'bg-[#5c5d71] w-16 h-16 rounded-full border-[5px] ' : ''} flex justify-center items-center  border-white`}>
                             <FontAwesomeIcon size={22} style={{color : 'white'}} icon={item.icon} />
                         </View>
 
@@ -84,7 +83,7 @@ const TabBotton = (props : any) =>{
 export default function BottomBar(){
     const Tab = createBottomTabNavigator()
     return (
-        <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle:{
+        <Tab.Navigator  screenOptions={{headerShown: false,  tabBarStyle:{
             position: 'absolute', 
                 height: 70,
                 width:'90%',
@@ -93,7 +92,7 @@ export default function BottomBar(){
                 alignItems: 'center',
                 alignContent: 'center',
                 alignSelf: 'center',
-                backgroundColor: '#90302a',
+                backgroundColor: '#5c5d71',
                 bottom:8,
                 borderRadius: 16,
                 borderTopWidth: 1,

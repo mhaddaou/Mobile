@@ -1,10 +1,12 @@
 import { BottomTabBar } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { Link, router } from "expo-router";
-import { Pressable, StatusBar, StyleSheet, Button, Text, View } from "react-native";
+import { Pressable, StyleSheet, Button, Text, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import BottomBar from "./components/BottomTabs";
+import { StatusBar } from 'expo-status-bar';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+import Search from "./components/Search";
 
 // import BottomBar from "./components/BottomTabs";
 export default function Page() {
@@ -17,8 +19,9 @@ export default function Page() {
   }
   return (
     <SafeAreaProvider className="flex-1 w-screen h-screen">
-      <StatusBar barStyle='dark-content'/>
-      <NavigationContainer  independent={true}>
+      <NavigationContainer   independent={true}>
+      <StatusBar backgroundColor="#5c5d71" style="light"/>
+        <Search/>
         <BottomBar />
       </NavigationContainer>
     </SafeAreaProvider>
@@ -27,4 +30,4 @@ export default function Page() {
 }
 
 
-// exp://luma_e0-anonymous-8081.exp.direct
+// exp://jjqh4ny-anonymous-8081.exp.direct
